@@ -56,8 +56,8 @@ for word in stop_words:
                 (list_word.lower() == word + ";") or
                 (list_word.lower() == word + "...")):
             # найти индекс элемента, по которому находится list_word
-
-            list_from_content = list_from_content[].replace(list_word, "*")
+            print()
+            # list_from_content = list_from_content[].replace(list_word, "*")
 print(list_word)
 edited_content = content.replace(word, "*")
 with open(file_name, "w", encoding="utf-8") as file:
