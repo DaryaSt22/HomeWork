@@ -26,49 +26,80 @@ class Item:
     def info(self):
         return f"Item name = {self.get_private_name}, Item shop = {self.get_private_shop}, Item cost = {self.get_private_cost}"
 
+    def __add__(self, other):
+        if isinstance(other, Item):
+            return self.get_private_cost + other.get_private_cost
+        elif isinstance(other, (int, float)):
+            return self.get_private_cost + other
+        raise TypeError("Можно складывать только объекты Item")
+
+    # Позволяет использовать item в sum() с начальным значением 0
+    def __radd__(self, other):
+        if other == 0:
+            return self.get_private_cost
+        return self.__add__(other)
+
+
 # Класс «Склад» содержит закрытый массив товаров.
 # Обеспечить следующие возможности:
-# 3. сортировка товаров по названию, по магазину и по цене
+
 # 4. перегруженная операция сложения товаров по цене
 
 class Storage:
 
-    def __init__(self, items):
-        self.items_list = list[Item](items)
+    def __init__(self, items: list[Item]):
+        self.items_list = items
 
         # for i in args:
         #     self.items_list.append(Good(i))
 
+    def print_items(self):
+        for item in self.items_list:
+            print(item.info())
+
 # 1. вывод информации о товаре со склада по индексу
     def __getitem__(self, i):
-        return self.items_list[i]
+        return self.items_list[i].info()
 
 # 2. вывод информации о товаре со склада по имени товара
     def good_info(self, goods_name):
         try:
-            index = self.items_list.index(goods_name)
-            print(self.items_list[index].info())
+            for item in self.items_list:
+                if item.get_private_name == goods_name:
+                    print(item.info())
         except:
             print("Item not found")
 
-# obj = Good("Trousers", "Wooll", 50000)
-# print("Вывод информации о товаре со склада по имени товара: ", obj.get_private_var)
+# 3. сортировка товаров по названию, по магазину и по цене
+    def items_sort_by_name(self):
+        self.items_list.sort(key=lambda item: item.get_private_name)
 
-    #
-    # def __add__(self, other):
-    #         if isinstance(other, Good):
-    #             return self.__cost + other.cost
-    #         raise TypeError("Сложение возможно только между объектами Good")
-    #
-    # def __repr__(self):
-    #         return f"Good({self.name, self.cost})"
+    def items_sort_by_shops(self):
+        self.items_list.sort(key=lambda item: item.get_private_shop)
 
+    def items_sort_by_cost(self):
+        self.items_list.sort(key=lambda item: item.get_private_cost)
+
+# 4. перегруженная операция сложения товаров по цене
+    def calculate_sum_cost_of_items(self):
+        return sum(self.items_list, 0)
 
 item1 = Item ("Trousers", "Jeans", 5556)
-item2 = Item ("T-shirt", "Shirts", 457)
-storage1 = Storage([item1, item2])
-storage1.good_info("Trousers")
-print(storage1.items_list[1])
-
-
+item2 = Item ("B-shirt", "Shirts", 457)
+item3 = Item ("A-shirt", "A-Shirts", 57)
+storage1 = Storage([item1, item2, item3])
+# print(storage1.__getitem__(0))
+# storage1.good_info("Trousers")
+storage1.print_items()
+print("___________________________________")
+storage1.items_sort_by_name()
+storage1.print_items()
+print("___________________________________")
+storage1.items_sort_by_shops()
+storage1.print_items()
+print("___________________________________")
+storage1.items_sort_by_cost()
+storage1.print_items()
+print("___________________________________")
+print(storage1.calculate_sum_cost_of_items())
 
