@@ -19,6 +19,9 @@ class Bus:
 
 
     # Метод - увеличение и уменьшение скорости на заданное значение
+    def increase(self):
+        return self.speed + int(input())
+        return self.speed - int(input())
 
 
     # Метод - операции in, += и -= (посадка и высадка пассажира по фамилии)

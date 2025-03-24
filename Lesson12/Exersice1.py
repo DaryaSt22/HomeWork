@@ -3,17 +3,17 @@
 # название магазина, в котором подаётся товар
 # стоимость товара в рублях
 
-class Good:
+class Item:
 
-    def __init__(self, name = "Trousers", shop = "Wooll", cost = 50000):
-        self.items_list = None
-        self.__private_var = name # закрытые поля
+    def __init__(self, name, shop, cost):
+        # закрытые поля
+        self.__name = name
         self.__shop = shop
         self.__cost = cost
 
     @property
-    def get_private_var(self):
-       return self.__private_var
+    def get_private_name(self):
+       return self.__name
 
     @property
     def get_private_shop(self):
@@ -23,6 +23,8 @@ class Good:
     def get_private_cost(self):
         return self.__cost
 
+    def info(self):
+        return f"Item name = {self.get_private_name}, Item shop = {self.get_private_shop}, Item cost = {self.get_private_cost}"
 
 # Класс «Склад» содержит закрытый массив товаров.
 # Обеспечить следующие возможности:
@@ -31,19 +33,26 @@ class Good:
 
 class Storage:
 
-    def __init__(self, *args):
-        self.items_list = list()
+    def __init__(self, items):
+        self.items_list = list[Item](items)
 
-        for i in args:
-            self.items_list.append(Good(i))
+        # for i in args:
+        #     self.items_list.append(Good(i))
 
 # 1. вывод информации о товаре со склада по индексу
     def __getitem__(self, i):
         return self.items_list[i]
 
 # 2. вывод информации о товаре со склада по имени товара
-obj = Good("Trousers", "Wooll", 50000)
-print("Вывод информации о товаре со склада по имени товара: ", obj.get_private_var)
+    def good_info(self, goods_name):
+        try:
+            index = self.items_list.index(goods_name)
+            print(self.items_list[index].info())
+        except:
+            print("Item not found")
+
+# obj = Good("Trousers", "Wooll", 50000)
+# print("Вывод информации о товаре со склада по имени товара: ", obj.get_private_var)
 
     #
     # def __add__(self, other):
@@ -55,7 +64,11 @@ print("Вывод информации о товаре со склада по и
     #         return f"Good({self.name, self.cost})"
 
 
-
+item1 = Item ("Trousers", "Jeans", 5556)
+item2 = Item ("T-shirt", "Shirts", 457)
+storage1 = Storage([item1, item2])
+storage1.good_info("Trousers")
+print(storage1.items_list[1])
 
 
 

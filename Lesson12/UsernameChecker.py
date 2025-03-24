@@ -1,6 +1,7 @@
 # 17. Создайте класс UsernameChecker с методом is_valid(username), который
 # проверяет, состоит ли имя пользователя только из букв и цифр
 
+
 class UsernameChecker:
 
     def __init__(self, name):
@@ -8,6 +9,7 @@ class UsernameChecker:
 
     def is_valid(self, username):
         self.username = username
-        if username == isdigit(username):
-            print("True")
-        elif
+        return username == isdigit(username) and isalpha(username)
+
+obj = UsernameChecker ("ghkwfb444")
+print(obj.is_valid())
